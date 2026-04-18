@@ -1,3 +1,5 @@
+ @import "tailwindcss";
+/* 
 * {
   margin: 0;
   padding: 0;
@@ -525,4 +527,4 @@ body {
   .checkout-item-controls {
     align-items: flex-start;
   }
-}
+}  */
