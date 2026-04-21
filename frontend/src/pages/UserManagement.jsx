@@ -13,6 +13,7 @@ import UserStats from '../components/user-management/UserStats';
 import UserTabs from '../components/user-management/UserTabs';
 import UserToolbar from '../components/user-management/UserToolbar';
 import UsersTable from '../components/user-management/UsersTable';
+import { useAuth } from '../contexts/AuthContext';
 import { userManagementSeed } from '../data';
 import { apiRequest, hasAuthToken } from '../lib/api';
 
@@ -107,6 +108,36 @@ function buildMockUsers() {
   };
 }
 
+function normalizeClass(rawClass) {
+  return {
+    id: rawClass.id ?? rawClass._id ?? '',
+    name: rawClass.name ?? rawClass.title ?? rawClass.code ?? 'Unnamed Class',
+    description: rawClass.description ?? '',
+  };
+}
+
+async function fetchClasses() {
+  const response = await apiRequest('/classes', {
+    headers: {
+      'x-active-role': 'ADMIN',
+    },
+  });
+
+  if (Array.isArray(response)) {
+    return response.map(normalizeClass);
+  }
+
+  if (Array.isArray(response?.data)) {
+    return response.data.map(normalizeClass);
+  }
+
+  if (Array.isArray(response?.classes)) {
+    return response.classes.map(normalizeClass);
+  }
+
+  return [];
+}
+
 async function fetchUsersByRole(role) {
   const response = await apiRequest(`/users?role=${role}`);
 
@@ -170,7 +201,7 @@ function downloadJsonFile(fileName, data) {
   URL.revokeObjectURL(url);
 }
 
-function EditUserModal({ user, role, saving, onClose, onSubmit }) {
+function EditUserModal({ user, role, saving, classes, classesLoading, onClose, onSubmit }) {
   const [formState, setFormState] = useState(() => ({
     firstName: user?.firstName ?? '',
     lastName: user?.lastName ?? '',
@@ -269,12 +300,29 @@ function EditUserModal({ user, role, saving, onClose, onSubmit }) {
           {role === 'STUDENT' ? (
             <label className="text-right">
               <span className="mb-2 block text-sm text-slate-400">معرف الصف</span>
-              <input
+              <select
                 value={formState.classId}
                 onChange={(event) => updateField('classId', event.target.value)}
-                className="w-full rounded-2xl bg-white/10 px-4 py-3 text-white outline-none placeholder:text-slate-500"
-                placeholder="uuid-of-class"
-              />
+                className="w-full rounded-2xl bg-white/10 px-4 py-3 text-white outline-none"
+                disabled={classesLoading}
+              >
+                <option value="" className="bg-[#140f25] text-slate-400">
+                  {classesLoading ? 'Loading classes...' : 'Select a class'}
+                </option>
+                {classes.map((schoolClass) => (
+                  <option
+                    key={schoolClass.id}
+                    value={schoolClass.id}
+                    className="bg-[#140f25] text-white"
+                  >
+                    {schoolClass.name}
+                    {schoolClass.description ? ` - ${schoolClass.description}` : ''}
+                  </option>
+                ))}
+              </select>
+              <span className="mt-2 block text-xs text-amber-300">
+                `classId` is required when creating a student through the API.
+              </span>
             </label>
           ) : null}
 
@@ -317,6 +365,8 @@ function EditUserModal({ user, role, saving, onClose, onSubmit }) {
 }
 
 export default function UserManagement() {
+  const { user: currentUser } = useAuth();
+  const isAdmin = currentUser?.roles?.includes('ADMIN');
   const [activeRole, setActiveRole] = useState('STUDENT');
   const [usersByRole, setUsersByRole] = useState(buildMockUsers());
   const [searchValue, setSearchValue] = useState('');
@@ -326,6 +376,8 @@ export default function UserManagement() {
   const [statusMessage, setStatusMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [isUsingMockData, setIsUsingMockData] = useState(!hasAuthToken());
+  const [classes, setClasses] = useState([]);
+  const [isClassesLoading, setIsClassesLoading] = useState(false);
   const [editingUser, setEditingUser] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const deferredSearchValue = useDeferredValue(searchValue);
@@ -387,6 +439,46 @@ export default function UserManagement() {
   }, []);
 
   useEffect(() => {
+    let isMounted = true;
+
+    async function loadClasses() {
+      if (!hasAuthToken() || !isAdmin) {
+        setClasses([]);
+        setIsClassesLoading(false);
+        return;
+      }
+
+      try {
+        setIsClassesLoading(true);
+        const classList = await fetchClasses();
+
+        if (!isMounted) {
+          return;
+        }
+
+        setClasses(classList);
+      } catch (error) {
+        if (!isMounted) {
+          return;
+        }
+
+        setClasses([]);
+        setErrorMessage((current) => current || error.message);
+      } finally {
+        if (isMounted) {
+          setIsClassesLoading(false);
+        }
+      }
+    }
+
+    loadClasses();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [isAdmin]);
+
+  useEffect(() => {
     setCurrentPage(1);
   }, [activeRole, deferredSearchValue]);
 
@@ -431,18 +523,48 @@ export default function UserManagement() {
       .map((value) => value.trim())
       .filter(Boolean);
     const role = activeRole;
+    const firstName = formState.firstName.trim();
+    const lastName = formState.lastName.trim();
+    const email = formState.email.trim();
+    const password = formState.password.trim();
+    const classId = formState.classId.trim();
 
     try {
+      if (!isAdmin) {
+        setErrorMessage('Only admins can create or update users through this endpoint.');
+        return;
+      }
+
+      if (!firstName || !lastName || !email) {
+        setErrorMessage('First name, last name, and email are required.');
+        return;
+      }
+
+      if (!editingUser && password.length < 6) {
+        setErrorMessage('A new user password must be at least 6 characters long.');
+        return;
+      }
+
+      if (editingUser && password && password.length < 6) {
+        setErrorMessage('The new password must be at least 6 characters long.');
+        return;
+      }
+
+      if (role === 'STUDENT' && !classId) {
+        setErrorMessage('Student creation requires a valid classId.');
+        return;
+      }
+
       setIsSaving(true);
       setErrorMessage('');
 
       if (editingUser && hasAuthToken()) {
         const payload = {
-          firstName: formState.firstName,
-          lastName: formState.lastName,
-          email: formState.email,
-          ...(formState.password ? { password: formState.password } : {}),
-          ...(role === 'STUDENT' && formState.classId ? { classId: formState.classId } : {}),
+          firstName,
+          lastName,
+          email,
+          ...(password ? { password } : {}),
+          ...(role === 'STUDENT' && classId ? { classId } : {}),
           ...(role === 'STUDENT' ? { parentIds: relatedIds } : {}),
           ...(role === 'PARENT' ? { childrenIds: relatedIds } : {}),
         };
@@ -455,12 +577,12 @@ export default function UserManagement() {
 
       if (!editingUser && hasAuthToken()) {
         const payload = {
-          email: formState.email,
-          password: formState.password || 'password123',
-          firstName: formState.firstName,
-          lastName: formState.lastName,
+          email,
+          password,
+          firstName,
+          lastName,
           roles: [role],
-          ...(role === 'STUDENT' && formState.classId ? { classId: formState.classId } : {}),
+          ...(role === 'STUDENT' ? { classId } : {}),
         };
 
         await apiRequest('/auth/register', {
@@ -472,11 +594,12 @@ export default function UserManagement() {
       const normalizedUser = normalizeUser(
         {
           id: editingUser?.id ?? `${role.toLowerCase()}-${Date.now()}`,
-          firstName: formState.firstName,
-          lastName: formState.lastName,
-          email: formState.email,
+          firstName,
+          lastName,
+          email,
           phone: formState.phone,
           roles: [role],
+          classId,
           parentIds: role === 'STUDENT' ? relatedIds : [],
           childrenIds: role === 'PARENT' ? relatedIds : [],
           isActive: true,
@@ -587,10 +710,13 @@ export default function UserManagement() {
             <button
               type="button"
               onClick={() => {
+                setErrorMessage('');
+                setStatusMessage('');
                 setEditingUser(null);
                 setIsModalOpen(true);
               }}
-              className="flex items-center gap-3 rounded-3xl bg-gradient-to-r from-violet-500 to-pink-500 px-5 py-4 text-lg font-semibold text-white transition hover:opacity-90"
+              disabled={!isAdmin}
+              className="flex items-center gap-3 rounded-3xl bg-gradient-to-r from-violet-500 to-pink-500 px-5 py-4 text-lg font-semibold text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
             >
               <UserPlus size={20} />
               <span>إضافة مستخدم</span>
@@ -598,6 +724,12 @@ export default function UserManagement() {
           </>
         }
       />
+
+      {!isAdmin ? (
+        <div className="rounded-3xl border border-amber-500/30 bg-amber-900/20 px-5 py-4 text-lg text-amber-200">
+          The current account does not include the `ADMIN` role, so create and update requests will be rejected by the backend.
+        </div>
+      ) : null}
 
       {statusMessage ? (
         <div
@@ -646,6 +778,8 @@ export default function UserManagement() {
           pageSize={pageSize}
           onPageChange={setCurrentPage}
           onEdit={(user) => {
+            setErrorMessage('');
+            setStatusMessage('');
             setEditingUser(user);
             setIsModalOpen(true);
           }}
@@ -658,6 +792,8 @@ export default function UserManagement() {
           user={editingUser}
           role={activeRole}
           saving={isSaving}
+          classes={classes}
+          classesLoading={isClassesLoading}
           onClose={() => {
             setEditingUser(null);
             setIsModalOpen(false);
