@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 import { Routes } from "react-router-dom";
 import "./App.css";
 import Home from "./pages/Home";
@@ -7,14 +7,6 @@ import Checkout from "./pages/Checkout";
 import User from "./pages/User";
 import { Route } from "react-router-dom"; 
 import Navbar from "./components/Navbar";
-=======
-import React from 'react';
-import { 
-  Home, TrendingUp, Users, BarChart2, Calendar, FileText, Settings, HelpCircle,
-  Download, Upload, UserPlus, GraduationCap, BookOpen, Shield, 
-  Search, Edit, Trash2, MoreVertical, Link, Link2Off, Mail, Calendar as CalendarIcon
-} from 'lucide-react';
->>>>>>> feature/userManagement
 
 // استيراد المكونات والبيانات والـ CSS
 import './App.css';
@@ -23,21 +15,7 @@ import { NavIcon, StatCard, ActionBtn } from './components/DashboardWidgets';
 
 export default function App() {
   return (
-<<<<<<< HEAD
-    <div className="app">
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/auth" element={<Auth />} />
-        <Route path="/checkout" element={<Checkout />} />
-        {/* <Route path="/user" element={<User />} /> */}
-      </Routes>
-    </div>
-  );
-}
 
-export default App;
-=======
     <div className="flex h-screen bg-[#110c22] text-white font-sans overflow-hidden" dir="ltr">
       
       {/* Sidebar */}
@@ -108,4 +86,3 @@ export default App;
     </div>
   );
 }
->>>>>>> feature/userManagement
