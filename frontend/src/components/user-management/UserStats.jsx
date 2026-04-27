@@ -1,13 +1,13 @@
 export default function UserStats({ items }) {
   return (
-    <div className="grid gap-4 xl:grid-cols-4 md:grid-cols-2">
+    <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
       {items.map((item) => {
         const Icon = item.icon;
 
         return (
           <article
             key={item.label}
-            className="rounded-[28px] border border-white/10 bg-[#1a1430] px-6 py-5 shadow-lg shadow-slate-950/20"
+            className="rounded-[28px] border border-[var(--app-border)] bg-[var(--app-panel)] px-6 py-5 shadow-[var(--app-shadow)]"
           >
             <div className="mb-8 flex items-start justify-between">
               <div
@@ -19,8 +19,10 @@ export default function UserStats({ items }) {
                 {item.trend}
               </span>
             </div>
-            <p className="text-xl font-semibold text-slate-400">{item.label}</p>
-            <p className="mt-1 text-5xl font-semibold tracking-tight text-white">
+            <p className="text-xl font-semibold text-[var(--app-text-muted)]">
+              {item.label}
+            </p>
+            <p className="mt-1 text-5xl font-semibold tracking-tight text-[var(--app-text)]">
               {item.value}
             </p>
           </article>

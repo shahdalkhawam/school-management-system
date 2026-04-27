@@ -1,130 +1,135 @@
 @import "tailwindcss";
-html {
-  background: #090612;
-}
 
-body {
-  margin: 0;
-  min-height: 100vh;
-  background: #090612;
-  color: #fff;
-  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
-    "Segoe UI", sans-serif;
-}
-
-#root {
-  min-height: 100vh;
-}
-
-/* @import "tailwindcss";
 :root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+  --brand-50: #f3f4f8;
+  --brand-100: #e0e3ef;
+  --brand-200: #c2c7e0;
+  --brand-300: #9ca4cc;
+  --brand-400: #7c85b8;
+  --brand-500: #5f6aa6;
+  --brand-600: #4b578e;
+  --brand-700: #3f4979;
+  --brand-800: #323b63;
+  --brand-900: #232b4a;
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
+  --neutral-50: #fafbfd;
+  --neutral-100: #f4f6fa;
+  --neutral-200: #e5e9f2;
+  --neutral-300: #cfd6e3;
+  --neutral-400: #97a1b3;
+  --neutral-500: #697487;
+  --neutral-600: #505a6d;
+  --neutral-700: #394254;
+  --neutral-800: #222938;
+  --neutral-900: #141924;
 
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
-  color-scheme: light dark;
-  color: var(--text);
-  background: var(--bg);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  --success: #3ecf8e;
+  --warning: #ffb84d;
+  --danger: #ff6b6b;
+  --info: #67b7ff;
 
-  @media (max-width: 1024px) {
-    font-size: 16px;
-  }
+  --app-bg: radial-gradient(circle at top, #eff2fa 0%, #e4e8f2 42%, #dce2ee 100%);
+  --app-text: var(--neutral-900);
+  --app-text-muted: var(--neutral-600);
+  --app-text-soft: var(--neutral-500);
+  --app-panel: rgba(255, 255, 255, 0.88);
+  --app-panel-strong: rgba(255, 255, 255, 0.96);
+  --app-panel-soft: rgba(243, 244, 248, 0.92);
+  --app-sidebar: rgba(244, 246, 250, 0.94);
+  --app-sidebar-hero: linear-gradient(135deg, rgba(95, 106, 166, 0.18), rgba(124, 133, 184, 0.08));
+  --app-topbar: rgba(250, 251, 253, 0.84);
+  --app-border: rgba(63, 73, 121, 0.12);
+  --app-border-strong: rgba(63, 73, 121, 0.2);
+  --app-shadow: 0 24px 60px rgba(35, 43, 74, 0.1);
+  --app-overlay: rgba(20, 25, 36, 0.45);
+  --app-primary: var(--brand-600);
+  --app-primary-strong: var(--brand-700);
+  --app-primary-soft: rgba(95, 106, 166, 0.12);
+  --app-primary-gradient: linear-gradient(135deg, rgba(95, 106, 166, 0.18), rgba(124, 133, 184, 0.08));
+  --app-accent: var(--brand-400);
+  --app-link-active: rgba(95, 106, 166, 0.16);
+  --app-link-hover: rgba(63, 73, 121, 0.07);
+  --app-link-icon: rgba(95, 106, 166, 0.12);
+  --app-search-bg: rgba(255, 255, 255, 0.78);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
-  }
+:root[data-theme='dark'] {
+  --app-bg: radial-gradient(circle at top, #36406b 0%, #2a3155 28%, #232b4a 55%, #141924 100%);
+  --app-text: #ffffff;
+  --app-text-muted: var(--neutral-300);
+  --app-text-soft: var(--neutral-400);
+  --app-panel: rgba(20, 25, 36, 0.78);
+  --app-panel-strong: rgba(24, 30, 44, 0.92);
+  --app-panel-soft: rgba(35, 43, 74, 0.72);
+  --app-sidebar: rgba(20, 25, 36, 0.94);
+  --app-sidebar-hero: linear-gradient(135deg, rgba(124, 133, 184, 0.18), rgba(95, 106, 166, 0.08));
+  --app-topbar: rgba(20, 25, 36, 0.76);
+  --app-border: rgba(224, 227, 239, 0.1);
+  --app-border-strong: rgba(224, 227, 239, 0.18);
+  --app-shadow: 0 30px 80px rgba(0, 0, 0, 0.28);
+  --app-overlay: rgba(8, 12, 20, 0.7);
+  --app-primary: var(--brand-300);
+  --app-primary-strong: var(--brand-200);
+  --app-primary-soft: rgba(124, 133, 184, 0.16);
+  --app-primary-gradient: linear-gradient(135deg, rgba(124, 133, 184, 0.2), rgba(95, 106, 166, 0.08));
+  --app-accent: var(--brand-400);
+  --app-link-active: rgba(124, 133, 184, 0.18);
+  --app-link-hover: rgba(255, 255, 255, 0.05);
+  --app-link-icon: rgba(255, 255, 255, 0.06);
+  --app-search-bg: rgba(35, 43, 74, 0.44);
+}
 
-  #social .button-icon {
-    filter: invert(1) brightness(2);
-  }
+html {
+  background: var(--app-bg);
+  color-scheme: light;
 }
 
 body {
   margin: 0;
+  min-height: 100vh;
+  background: var(--app-bg);
+  color: var(--app-text);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  transition:
+    background 220ms ease,
+    color 220ms ease;
 }
 
 #root {
-  width: 1126px;
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
+  min-height: 100vh;
+}
+
+* {
   box-sizing: border-box;
 }
 
-h1,
-h2 {
-  font-family: var(--heading);
-  font-weight: 500;
-  color: var(--text-h);
+button,
+a,
+input {
+  transition:
+    background-color 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease;
 }
 
-h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
+::selection {
+  background: var(--app-primary-soft);
+}
+
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
-h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
-  }
-}
-p {
-  margin: 0;
-}
 
-code,
-.counter {
-  font-family: var(--mono);
-  display: inline-flex;
-  border-radius: 4px;
-  color: var(--text-h);
+.animate-page-enter {
+  animation: page-enter 220ms ease;
 }
-
-code {
-  font-size: 15px;
-  line-height: 135%;
-  padding: 4px 8px;
-  background: var(--code-bg);
-} */

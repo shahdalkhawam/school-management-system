@@ -38,14 +38,14 @@ function UserRow({ user, onEdit, onToggleArchive }) {
   const role = user.roles?.[0] ?? 'STUDENT';
 
   return (
-    <tr className="border-t border-white/8 text-right text-xl text-slate-300">
+    <tr className="border-t border-[var(--app-border)] text-right text-xl text-[var(--app-text-muted)]">
       <td className="px-6 py-5">
         <div className="flex items-center justify-end gap-4">
           <div className="text-right">
-            <p className="text-2xl font-semibold text-white">
+            <p className="text-2xl font-semibold text-[var(--app-text)]">
               {user.firstName} {user.lastName}
             </p>
-            <span className="mt-2 inline-flex items-center rounded-full bg-gradient-to-r from-violet-500 to-pink-500 px-4 py-1 text-sm font-semibold text-white">
+            <span className="mt-2 inline-flex items-center rounded-full bg-gradient-to-r from-[var(--brand-500)] to-[var(--brand-700)] px-4 py-1 text-sm font-semibold text-white">
               {getRoleLabel(role)}
             </span>
           </div>
@@ -57,7 +57,7 @@ function UserRow({ user, onEdit, onToggleArchive }) {
         </div>
       </td>
 
-      <td className="px-6 py-5 text-slate-400">
+      <td className="px-6 py-5 text-[var(--app-text-muted)]">
         <div className="flex items-center justify-end gap-3">
           <span>{user.email || 'غير متوفر'}</span>
           <Mail size={20} />
@@ -69,18 +69,18 @@ function UserRow({ user, onEdit, onToggleArchive }) {
       <td className="px-6 py-5">
         {role === 'STUDENT' ? (
           user.parentLinked ? (
-            <span className="inline-flex items-center gap-2 rounded-2xl bg-emerald-900/30 px-4 py-2 font-semibold text-emerald-300">
+            <span className="inline-flex items-center gap-2 rounded-2xl bg-emerald-500/12 px-4 py-2 font-semibold text-emerald-400">
               <span>{user.parentName || 'ولي أمر مرتبط'}</span>
               <Link size={18} />
             </span>
           ) : (
-            <span className="inline-flex items-center gap-2 rounded-2xl bg-amber-900/30 px-4 py-2 font-semibold text-amber-300">
+            <span className="inline-flex items-center gap-2 rounded-2xl bg-amber-500/12 px-4 py-2 font-semibold text-amber-400">
               <span>ربط ولي أمر</span>
               <Link2Off size={18} />
             </span>
           )
         ) : (
-          <span className="text-slate-500">-</span>
+          <span className="text-[var(--app-text-soft)]">-</span>
         )}
       </td>
 
@@ -88,8 +88,8 @@ function UserRow({ user, onEdit, onToggleArchive }) {
         <span
           className={`inline-flex rounded-2xl px-4 py-2 font-semibold ${
             user.isActive
-              ? 'bg-emerald-900/30 text-emerald-300'
-              : 'bg-rose-900/30 text-rose-300'
+              ? 'bg-emerald-500/12 text-emerald-400'
+              : 'bg-rose-500/12 text-rose-400'
           }`}
         >
           {user.isActive ? 'نشط' : 'غير نشط'}
@@ -97,7 +97,7 @@ function UserRow({ user, onEdit, onToggleArchive }) {
       </td>
 
       <td className="px-6 py-5">
-        <div className="flex items-center justify-end gap-3 text-slate-400">
+        <div className="flex items-center justify-end gap-3 text-[var(--app-text-muted)]">
           <span>{formatDate(user.joinedAt)}</span>
           <Calendar size={20} />
         </div>
@@ -108,7 +108,7 @@ function UserRow({ user, onEdit, onToggleArchive }) {
           <button
             type="button"
             onClick={() => onEdit(user)}
-            className="rounded-2xl bg-indigo-900/40 p-3 text-indigo-300 transition hover:bg-indigo-800/50"
+            className="rounded-2xl border border-[var(--app-border)] bg-[var(--app-primary-soft)] p-3 text-[var(--app-primary-strong)] transition hover:bg-[var(--app-link-active)]"
             aria-label="Edit user"
           >
             <Pencil size={20} />
@@ -118,8 +118,8 @@ function UserRow({ user, onEdit, onToggleArchive }) {
             onClick={() => onToggleArchive(user)}
             className={`rounded-2xl p-3 transition ${
               user.isActive
-                ? 'bg-rose-900/40 text-rose-300 hover:bg-rose-800/50'
-                : 'bg-emerald-900/40 text-emerald-300 hover:bg-emerald-800/50'
+                ? 'bg-rose-500/12 text-rose-400 hover:bg-rose-500/18'
+                : 'bg-emerald-500/12 text-emerald-400 hover:bg-emerald-500/18'
             }`}
             aria-label={user.isActive ? 'Archive user' : 'Restore user'}
           >
@@ -127,14 +127,14 @@ function UserRow({ user, onEdit, onToggleArchive }) {
           </button>
           <button
             type="button"
-            className="rounded-2xl bg-emerald-900/30 p-3 text-emerald-300 transition hover:bg-emerald-800/40"
+            className="rounded-2xl border border-emerald-500/20 bg-emerald-500/12 p-3 text-emerald-400 transition hover:bg-emerald-500/18"
             aria-label="Export user"
           >
             <Download size={20} />
           </button>
           <button
             type="button"
-            className="rounded-2xl bg-violet-900/40 p-3 text-violet-300 transition hover:bg-violet-800/50"
+            className="rounded-2xl border border-[var(--app-border)] bg-[var(--app-panel-soft)] p-3 text-[var(--app-primary)] transition hover:bg-[var(--app-link-hover)]"
             aria-label="More actions"
           >
             <EllipsisVertical size={20} />
@@ -156,10 +156,10 @@ export default function UsersTable({
   onToggleArchive,
 }) {
   return (
-    <div className="overflow-hidden rounded-[30px] border border-white/10 bg-[#201738]">
+    <div className="overflow-hidden rounded-[30px] border border-[var(--app-border)] bg-[var(--app-panel)] shadow-[var(--app-shadow)]">
       <div className="overflow-x-auto">
         <table className="min-w-full">
-          <thead className="border-b border-white/10 text-right text-xl font-semibold text-slate-400">
+          <thead className="border-b border-[var(--app-border)] text-right text-xl font-semibold text-[var(--app-text-soft)]">
             <tr>
               <th className="px-6 py-6">الاسم</th>
               <th className="px-6 py-6">البريد الإلكتروني</th>
@@ -184,7 +184,7 @@ export default function UsersTable({
               <tr>
                 <td
                   colSpan={7}
-                  className="px-6 py-16 text-center text-xl text-slate-400"
+                  className="px-6 py-16 text-center text-xl text-[var(--app-text-soft)]"
                 >
                   لا توجد بيانات مطابقة للبحث الحالي.
                 </td>

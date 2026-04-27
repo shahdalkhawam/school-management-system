@@ -2,7 +2,13 @@ import React from 'react';
 
 export function NavIcon({ icon, active }) {
   return (
-    <button className={`p-3 rounded-xl transition-all ${active ? 'bg-gradient-to-r from-fuchsia-600 to-purple-600 text-white shadow-lg shadow-purple-500/20' : 'text-[#686088] hover:text-white hover:bg-[#2a2442]'}`}>
+    <button
+      className={`rounded-xl p-3 transition-all ${
+        active
+          ? 'bg-gradient-to-r from-[var(--brand-500)] to-[var(--brand-700)] text-white shadow-[var(--app-shadow)]'
+          : 'text-[var(--app-text-soft)] hover:bg-[var(--app-link-hover)] hover:text-[var(--app-text)]'
+      }`}
+    >
       {icon}
     </button>
   );
@@ -10,16 +16,18 @@ export function NavIcon({ icon, active }) {
 
 export function StatCard({ icon, title, value, color, trend }) {
   return (
-    <div className="bg-[#1c1535] rounded-xl p-5 border border-[#2a2442]">
-      <div className="flex justify-between items-start mb-4">
-        <span className="text-emerald-400 text-xs font-medium">{trend}</span>
-        <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${color} bg-opacity-20`}>
+    <div className="rounded-xl border border-[var(--app-border)] bg-[var(--app-panel)] p-5 shadow-[var(--app-shadow)]">
+      <div className="mb-4 flex items-start justify-between">
+        <span className="text-xs font-medium text-emerald-400">{trend}</span>
+        <div
+          className={`flex h-10 w-10 items-center justify-center rounded-lg bg-[var(--app-panel-soft)] ${color}`}
+        >
           <div className={color.replace('bg-', 'text-')}>{icon}</div>
         </div>
       </div>
       <div className="text-right">
-        <h3 className="text-[#8e87a8] text-sm mb-1">{title}</h3>
-        <p className="text-2xl font-bold">{value}</p>
+        <h3 className="mb-1 text-sm text-[var(--app-text-soft)]">{title}</h3>
+        <p className="text-2xl font-bold text-[var(--app-text)]">{value}</p>
       </div>
     </div>
   );
@@ -27,7 +35,9 @@ export function StatCard({ icon, title, value, color, trend }) {
 
 export function ActionBtn({ icon, color }) {
   return (
-    <button className={`p-1.5 rounded-md bg-[#241c40] transition ${color}`}>
+    <button
+      className={`rounded-md border border-[var(--app-border)] bg-[var(--app-panel-soft)] p-1.5 transition hover:bg-[var(--app-link-hover)] ${color}`}
+    >
       {icon}
     </button>
   );

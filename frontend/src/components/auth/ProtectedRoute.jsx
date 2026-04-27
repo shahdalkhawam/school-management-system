@@ -1,5 +1,5 @@
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
-import { useAuth } from '../../contexts/AuthContext';
+import { useAuth } from '../../contexts/useAuth';
 
 export default function ProtectedRoute() {
   const { isAuthenticated, isAuthLoading } = useAuth();
@@ -7,9 +7,9 @@ export default function ProtectedRoute() {
 
   if (isAuthLoading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-[#090612] text-white">
-        <div className="rounded-[28px] border border-white/10 bg-white/5 px-8 py-6 text-lg text-slate-300">
-          جارٍ التحقق من الجلسة...
+      <div className="flex min-h-screen items-center justify-center bg-[var(--app-bg)] text-[var(--app-text)]">
+        <div className="rounded-[28px] border border-[var(--app-border)] bg-[var(--app-panel)] px-8 py-6 text-lg text-[var(--app-text-muted)] shadow-[var(--app-shadow)]">
+          Checking session...
         </div>
       </div>
     );
@@ -19,6 +19,5 @@ export default function ProtectedRoute() {
     return <Navigate to="/auth" replace state={{ from: location }} />;
   }
 
-  
   return <Outlet />;
 }

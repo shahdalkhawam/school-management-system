@@ -7,7 +7,7 @@ import {
   setAuthToken,
 } from '../lib/api';
 
-const AuthContext = createContext(null);
+export const AuthContext = createContext(null);
 
 function normalizeProfile(rawUser) {
   if (!rawUser || typeof rawUser !== 'object') {

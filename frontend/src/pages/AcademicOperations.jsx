@@ -10,26 +10,10 @@ import {
 } from 'lucide-react';
 
 const stats = [
-  {
-    value: '+1200',
-    label: 'إجمالي الطلاب',
-    color: 'text-blue-400',
-  },
-  {
-    value: '45',
-    label: 'عدد المعلمين',
-    color: 'text-violet-400',
-  },
-  {
-    value: '+8.3%',
-    label: 'معدل التحسن',
-    color: 'text-emerald-400',
-  },
-  {
-    value: '+12.5%',
-    label: 'معدل النشاطات',
-    color: 'text-pink-400',
-  },
+  { value: '+1200', label: 'إجمالي الطلاب', color: 'text-blue-400' },
+  { value: '45', label: 'عدد المعلمين', color: 'text-violet-400' },
+  { value: '+8.3%', label: 'معدل التحسن', color: 'text-emerald-400' },
+  { value: '+12.5%', label: 'معدل النشاطات', color: 'text-pink-400' },
 ];
 
 const operationCards = [
@@ -141,11 +125,13 @@ const operationCards = [
 
 function StatsCard({ stat }) {
   return (
-    <div className="rounded-[28px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.04),rgba(255,255,255,0.02))] px-6 py-8 shadow-[0_18px_50px_rgba(0,0,0,0.18)]">
+    <div className="rounded-[28px] border border-[var(--app-border)] bg-[var(--app-panel)] px-6 py-8 shadow-[var(--app-shadow)] backdrop-blur">
       <p className={`text-center text-4xl font-bold tracking-tight ${stat.color}`}>
         {stat.value}
       </p>
-      <p className="mt-3 text-center text-2xl text-slate-300">{stat.label}</p>
+      <p className="mt-3 text-center text-2xl text-[var(--app-text-muted)]">
+        {stat.label}
+      </p>
     </div>
   );
 }
@@ -155,15 +141,15 @@ function OperationCard({ item }) {
 
   return (
     <section
-      className={`rounded-[30px] border p-6 shadow-[0_24px_60px_rgba(0,0,0,0.22)] transition hover:-translate-y-1 ${
+      className={`rounded-[30px] border p-6 shadow-[var(--app-shadow)] transition hover:-translate-y-1 ${
         item.featured
-          ? 'border-violet-400/20 bg-[linear-gradient(180deg,rgba(139,92,246,0.16),rgba(17,24,39,0.9))]'
-          : 'border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.045),rgba(255,255,255,0.02))]'
+          ? 'border-[var(--app-border-strong)] bg-[linear-gradient(180deg,var(--app-primary-soft),var(--app-panel-strong))]'
+          : 'border-[var(--app-border)] bg-[var(--app-panel)]'
       }`}
     >
       <div className="flex justify-end">
         <div
-          className={`flex h-[84px] w-[84px] items-center justify-center rounded-[22px] border-4 bg-slate-950/20 ${item.iconBorder} ${item.iconGlow}`}
+          className={`flex h-[84px] w-[84px] items-center justify-center rounded-[22px] border-4 bg-[var(--app-panel-soft)] ${item.iconBorder} ${item.iconGlow}`}
         >
           <Icon size={34} className={item.iconColor} />
         </div>
@@ -172,24 +158,24 @@ function OperationCard({ item }) {
       <div className="mt-8 text-right">
         <h3
           className={`text-[2.05rem] font-bold leading-tight ${
-            item.featured ? 'text-violet-300' : 'text-white'
+            item.featured ? 'text-[var(--app-primary-strong)]' : 'text-[var(--app-text)]'
           }`}
         >
           {item.title}
         </h3>
-        <p className="mt-3 min-h-[72px] text-lg leading-8 text-slate-400">
+        <p className="mt-3 min-h-[72px] text-lg leading-8 text-[var(--app-text-muted)]">
           {item.description}
         </p>
       </div>
 
-      <div className="mt-5 border-t border-white/10 pt-6">
+      <div className="mt-5 border-t border-[var(--app-border)] pt-6">
         <div className="flex items-end justify-between gap-4">
           <div className={`h-12 w-12 rounded-[14px] ${item.accentBox}`} />
           <div className="text-right">
             <p className={`text-4xl font-bold tracking-tight ${item.valueColor}`}>
               {item.value}
             </p>
-            <p className="mt-1 text-base text-slate-500">{item.unit}</p>
+            <p className="mt-1 text-base text-[var(--app-text-soft)]">{item.unit}</p>
           </div>
         </div>
       </div>
@@ -200,35 +186,35 @@ function OperationCard({ item }) {
 export default function AcademicOperations() {
   return (
     <div className="space-y-8" dir="rtl">
-      <section className="overflow-hidden rounded-[34px] border border-white/10 bg-[radial-gradient(circle_at_top,_rgba(59,130,246,0.12),transparent_25%),linear-gradient(180deg,#0f1327_0%,#0c1120_100%)] shadow-[0_30px_80px_rgba(0,0,0,0.28)]">
-        <div className="border-b border-white/5 px-6 pb-8 pt-10 sm:px-10 lg:px-14 lg:pb-10 lg:pt-14">
-          <h1 className="text-center text-4xl font-black tracking-tight text-white sm:text-5xl lg:text-7xl">
+      <section className="overflow-hidden rounded-[34px] border border-[var(--app-border)] bg-[linear-gradient(180deg,var(--app-panel-strong),var(--app-panel))] shadow-[var(--app-shadow)]">
+        <div className="border-b border-[var(--app-border)] px-6 pb-8 pt-10 sm:px-10 lg:px-14 lg:pb-10 lg:pt-14">
+          <h1 className="text-center text-4xl font-black tracking-tight text-[var(--app-text)] sm:text-5xl lg:text-7xl">
             إدارة العمليات الأكاديمية والمدرسية
           </h1>
-          <p className="mx-auto mt-5 max-w-4xl text-center text-lg leading-9 text-sky-200/80 sm:text-2xl">
+          <p className="mx-auto mt-5 max-w-4xl text-center text-lg leading-9 text-[var(--app-text-muted)] sm:text-2xl">
             نظام متكامل لإدارة جميع العمليات الأكاديمية بكفاءة عالية واحترافية
           </p>
         </div>
 
-        <div className="grid gap-px bg-white/5 md:grid-cols-2 xl:grid-cols-4">
+        <div className="grid gap-px bg-[var(--app-border)] md:grid-cols-2 xl:grid-cols-4">
           {stats.map((stat) => (
-            <div key={stat.label} className="bg-[#11172a] p-6">
+            <div key={stat.label} className="bg-[var(--app-panel-strong)] p-6">
               <StatsCard stat={stat} />
             </div>
           ))}
         </div>
 
-        <div className="grid gap-px border-t border-white/5 bg-white/5 md:grid-cols-2 xl:grid-cols-4">
+        <div className="grid gap-px border-t border-[var(--app-border)] bg-[var(--app-border)] md:grid-cols-2 xl:grid-cols-4">
           {operationCards.slice(0, 4).map((item) => (
-            <div key={item.title} className="bg-[#11172a] p-4 sm:p-5">
+            <div key={item.title} className="bg-[var(--app-panel-strong)] p-4 sm:p-5">
               <OperationCard item={item} />
             </div>
           ))}
         </div>
 
-        <div className="grid gap-px border-t border-white/5 bg-white/5 md:grid-cols-2 xl:grid-cols-4">
+        <div className="grid gap-px border-t border-[var(--app-border)] bg-[var(--app-border)] md:grid-cols-2 xl:grid-cols-4">
           {operationCards.slice(4).map((item) => (
-            <div key={item.title} className="bg-[#11172a] p-4 sm:p-5">
+            <div key={item.title} className="bg-[var(--app-panel-strong)] p-4 sm:p-5">
               <OperationCard item={item} />
             </div>
           ))}

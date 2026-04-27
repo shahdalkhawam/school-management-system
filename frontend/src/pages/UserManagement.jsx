@@ -13,7 +13,7 @@ import UserStats from '../components/user-management/UserStats';
 import UserTabs from '../components/user-management/UserTabs';
 import UserToolbar from '../components/user-management/UserToolbar';
 import UsersTable from '../components/user-management/UsersTable';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../contexts/useAuth';
 import { userManagementSeed } from '../data';
 import { apiRequest, hasAuthToken } from '../lib/api';
 
@@ -228,20 +228,20 @@ function EditUserModal({ user, role, saving, classes, classesLoading, onClose, o
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/75 px-4">
-      <div className="w-full max-w-3xl rounded-[30px] border border-white/10 bg-[#140f25] p-6 shadow-2xl shadow-black/40">
+      <div className="w-full max-w-3xl rounded-[30px] border border-[var(--app-border)] bg-[var(--app-panel-strong)] p-6 shadow-[var(--app-shadow)]">
         <div className="mb-6 flex items-center justify-between">
           <div className="text-right">
-            <p className="text-sm uppercase tracking-[0.25em] text-cyan-300/80">
+            <p className="text-sm uppercase tracking-[0.25em] text-[var(--app-primary)]">
               User Form
             </p>
-            <h2 className="mt-2 text-3xl font-semibold text-white">
+            <h2 className="mt-2 text-3xl font-semibold text-[var(--app-text)]">
               {user ? 'تعديل المستخدم' : 'إضافة مستخدم جديد'}
             </h2>
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="rounded-2xl bg-white/10 px-4 py-2 text-slate-300 transition hover:bg-white/15 hover:text-white"
+            className="rounded-2xl border border-[var(--app-border)] bg-[var(--app-panel-soft)] px-4 py-2 text-[var(--app-text-muted)] transition hover:bg-[var(--app-link-hover)] hover:text-[var(--app-text)]"
           >
             إغلاق
           </button>
@@ -249,71 +249,71 @@ function EditUserModal({ user, role, saving, classes, classesLoading, onClose, o
 
         <form className="grid gap-4 md:grid-cols-2" onSubmit={handleSubmit}>
           <label className="text-right">
-            <span className="mb-2 block text-sm text-slate-400">الاسم الأول</span>
+            <span className="mb-2 block text-sm text-[var(--app-text-soft)]">الاسم الأول</span>
             <input
               value={formState.firstName}
               onChange={(event) => updateField('firstName', event.target.value)}
-              className="w-full rounded-2xl bg-white/10 px-4 py-3 text-white outline-none placeholder:text-slate-500"
+              className="w-full rounded-2xl border border-[var(--app-border)] bg-[var(--app-search-bg)] px-4 py-3 text-[var(--app-text)] outline-none placeholder:text-[var(--app-text-soft)]"
             />
           </label>
 
           <label className="text-right">
-            <span className="mb-2 block text-sm text-slate-400">الاسم الأخير</span>
+            <span className="mb-2 block text-sm text-[var(--app-text-soft)]">الاسم الأخير</span>
             <input
               value={formState.lastName}
               onChange={(event) => updateField('lastName', event.target.value)}
-              className="w-full rounded-2xl bg-white/10 px-4 py-3 text-white outline-none placeholder:text-slate-500"
+              className="w-full rounded-2xl border border-[var(--app-border)] bg-[var(--app-search-bg)] px-4 py-3 text-[var(--app-text)] outline-none placeholder:text-[var(--app-text-soft)]"
             />
           </label>
 
           <label className="text-right">
-            <span className="mb-2 block text-sm text-slate-400">البريد الإلكتروني</span>
+            <span className="mb-2 block text-sm text-[var(--app-text-soft)]">البريد الإلكتروني</span>
             <input
               type="email"
               value={formState.email}
               onChange={(event) => updateField('email', event.target.value)}
-              className="w-full rounded-2xl bg-white/10 px-4 py-3 text-white outline-none placeholder:text-slate-500"
+              className="w-full rounded-2xl border border-[var(--app-border)] bg-[var(--app-search-bg)] px-4 py-3 text-[var(--app-text)] outline-none placeholder:text-[var(--app-text-soft)]"
             />
           </label>
 
           <label className="text-right">
-            <span className="mb-2 block text-sm text-slate-400">رقم الهاتف</span>
+            <span className="mb-2 block text-sm text-[var(--app-text-soft)]">رقم الهاتف</span>
             <input
               value={formState.phone}
               onChange={(event) => updateField('phone', event.target.value)}
-              className="w-full rounded-2xl bg-white/10 px-4 py-3 text-white outline-none placeholder:text-slate-500"
+              className="w-full rounded-2xl border border-[var(--app-border)] bg-[var(--app-search-bg)] px-4 py-3 text-[var(--app-text)] outline-none placeholder:text-[var(--app-text-soft)]"
             />
           </label>
 
           <label className="text-right">
-            <span className="mb-2 block text-sm text-slate-400">
+            <span className="mb-2 block text-sm text-[var(--app-text-soft)]">
               {user ? 'كلمة المرور الجديدة' : 'كلمة المرور'}
             </span>
             <input
               type="password"
               value={formState.password}
               onChange={(event) => updateField('password', event.target.value)}
-              className="w-full rounded-2xl bg-white/10 px-4 py-3 text-white outline-none placeholder:text-slate-500"
+              className="w-full rounded-2xl border border-[var(--app-border)] bg-[var(--app-search-bg)] px-4 py-3 text-[var(--app-text)] outline-none placeholder:text-[var(--app-text-soft)]"
             />
           </label>
 
           {role === 'STUDENT' ? (
             <label className="text-right">
-              <span className="mb-2 block text-sm text-slate-400">معرف الصف</span>
+              <span className="mb-2 block text-sm text-[var(--app-text-soft)]">معرف الصف</span>
               <select
                 value={formState.classId}
                 onChange={(event) => updateField('classId', event.target.value)}
-                className="w-full rounded-2xl bg-white/10 px-4 py-3 text-white outline-none"
+                className="w-full rounded-2xl border border-[var(--app-border)] bg-[var(--app-search-bg)] px-4 py-3 text-[var(--app-text)] outline-none"
                 disabled={classesLoading}
               >
-                <option value="" className="bg-[#140f25] text-slate-400">
+                <option value="" className="bg-[var(--app-panel-strong)] text-[var(--app-text-soft)]">
                   {classesLoading ? 'Loading classes...' : 'Select a class'}
                 </option>
                 {classes.map((schoolClass) => (
                   <option
                     key={schoolClass.id}
                     value={schoolClass.id}
-                    className="bg-[#140f25] text-white"
+                    className="bg-[var(--app-panel-strong)] text-[var(--app-text)]"
                   >
                     {schoolClass.name}
                     {schoolClass.description ? ` - ${schoolClass.description}` : ''}
@@ -328,7 +328,7 @@ function EditUserModal({ user, role, saving, classes, classesLoading, onClose, o
 
           {role === 'STUDENT' || role === 'PARENT' ? (
             <label className="md:col-span-2 text-right">
-              <span className="mb-2 block text-sm text-slate-400">
+              <span className="mb-2 block text-sm text-[var(--app-text-soft)]">
                 {role === 'STUDENT'
                   ? 'معرفات أولياء الأمور المرتبطين'
                   : 'معرفات الأبناء المرتبطين'}
@@ -336,7 +336,7 @@ function EditUserModal({ user, role, saving, classes, classesLoading, onClose, o
               <input
                 value={formState.relatedIds}
                 onChange={(event) => updateField('relatedIds', event.target.value)}
-                className="w-full rounded-2xl bg-white/10 px-4 py-3 text-white outline-none placeholder:text-slate-500"
+                className="w-full rounded-2xl border border-[var(--app-border)] bg-[var(--app-search-bg)] px-4 py-3 text-[var(--app-text)] outline-none placeholder:text-[var(--app-text-soft)]"
                 placeholder="uuid-1, uuid-2"
               />
             </label>
@@ -346,14 +346,14 @@ function EditUserModal({ user, role, saving, classes, classesLoading, onClose, o
             <button
               type="submit"
               disabled={saving}
-              className="rounded-2xl bg-gradient-to-r from-violet-500 to-pink-500 px-6 py-3 text-lg font-semibold text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+              className="rounded-2xl bg-gradient-to-r from-[var(--brand-500)] to-[var(--brand-700)] px-6 py-3 text-lg font-semibold text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
             >
               {saving ? 'جارٍ الحفظ...' : user ? 'حفظ التعديلات' : 'إنشاء المستخدم'}
             </button>
             <button
               type="button"
               onClick={onClose}
-              className="rounded-2xl bg-white/10 px-6 py-3 text-lg font-semibold text-slate-300 transition hover:bg-white/15"
+              className="rounded-2xl border border-[var(--app-border)] bg-[var(--app-panel-soft)] px-6 py-3 text-lg font-semibold text-[var(--app-text-muted)] transition hover:bg-[var(--app-link-hover)] hover:text-[var(--app-text)]"
             >
               إلغاء
             </button>
@@ -694,7 +694,7 @@ export default function UserManagement() {
             <button
               type="button"
               onClick={handleExport}
-              className="flex items-center gap-3 rounded-3xl bg-white/10 px-5 py-4 text-lg font-semibold text-slate-200 transition hover:bg-white/15"
+              className="flex items-center gap-3 rounded-3xl border border-[var(--app-border)] bg-[var(--app-panel-soft)] px-5 py-4 text-lg font-semibold text-[var(--app-text-muted)] transition hover:bg-[var(--app-link-hover)] hover:text-[var(--app-text)]"
             >
               <Download size={20} />
               <span>تصدير</span>
@@ -702,7 +702,7 @@ export default function UserManagement() {
             <button
               type="button"
               onClick={handleImport}
-              className="flex items-center gap-3 rounded-3xl bg-white/10 px-5 py-4 text-lg font-semibold text-slate-200 transition hover:bg-white/15"
+              className="flex items-center gap-3 rounded-3xl border border-[var(--app-border)] bg-[var(--app-panel-soft)] px-5 py-4 text-lg font-semibold text-[var(--app-text-muted)] transition hover:bg-[var(--app-link-hover)] hover:text-[var(--app-text)]"
             >
               <Upload size={20} />
               <span>استيراد</span>
@@ -716,7 +716,7 @@ export default function UserManagement() {
                 setIsModalOpen(true);
               }}
               disabled={!isAdmin}
-              className="flex items-center gap-3 rounded-3xl bg-gradient-to-r from-violet-500 to-pink-500 px-5 py-4 text-lg font-semibold text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+              className="flex items-center gap-3 rounded-3xl bg-gradient-to-r from-[var(--brand-500)] to-[var(--brand-700)] px-5 py-4 text-lg font-semibold text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
             >
               <UserPlus size={20} />
               <span>إضافة مستخدم</span>
@@ -726,7 +726,7 @@ export default function UserManagement() {
       />
 
       {!isAdmin ? (
-        <div className="rounded-3xl border border-amber-500/30 bg-amber-900/20 px-5 py-4 text-lg text-amber-200">
+        <div className="rounded-3xl border border-amber-500/30 bg-amber-500/12 px-5 py-4 text-lg text-amber-400">
           The current account does not include the `ADMIN` role, so create and update requests will be rejected by the backend.
         </div>
       ) : null}
@@ -735,8 +735,8 @@ export default function UserManagement() {
         <div
           className={`rounded-3xl border px-5 py-4 text-lg ${
             isUsingMockData
-              ? 'border-amber-500/30 bg-amber-900/20 text-amber-200'
-              : 'border-emerald-500/30 bg-emerald-900/20 text-emerald-200'
+              ? 'border-amber-500/30 bg-amber-500/12 text-amber-400'
+              : 'border-emerald-500/30 bg-emerald-500/12 text-emerald-400'
           }`}
         >
           {statusMessage}
@@ -744,7 +744,7 @@ export default function UserManagement() {
       ) : null}
 
       {errorMessage ? (
-        <div className="rounded-3xl border border-rose-500/30 bg-rose-900/20 px-5 py-4 text-lg text-rose-200">
+        <div className="rounded-3xl border border-rose-500/30 bg-rose-500/12 px-5 py-4 text-lg text-rose-400">
           {errorMessage}
         </div>
       ) : null}
@@ -766,7 +766,7 @@ export default function UserManagement() {
       />
 
       {isLoading ? (
-        <div className="rounded-[30px] border border-white/10 bg-[#201738] px-6 py-20 text-center text-2xl text-slate-300">
+        <div className="rounded-[30px] border border-[var(--app-border)] bg-[var(--app-panel)] px-6 py-20 text-center text-2xl text-[var(--app-text-muted)]">
           جارٍ تحميل بيانات المستخدمين...
         </div>
       ) : (
